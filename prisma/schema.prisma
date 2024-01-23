@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Company {
+  id String @id @db.VarChar(50) @default(cuid())
+  company_code String @unique
+  name String @db.VarChar(100)
+  address String @db.Text()
+  email String @db.VarChar()
+  username String @db.VarChar(100) @unique
+  password String @db.VarChar(50)
+  license_key String @db.Uuid @default(uuid())
+  is_active Boolean @default(true)
+  expires_at DateTime @db.Timestamptz()
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  employees Employees[]
+  
+  @@map("companies")
+}
+
+model Employees {
+  id String @id @db.VarChar(50) @default(cuid())
+  company_id String @db.VarChar(50)
+  employee_code String @db.Char(10) @unique
+  name String @db.VarChar(100)
+  email String @db.VarChar()
+  username String @db.VarChar(100) @unique
+  password String @db.VarChar(50)
+  is_active Boolean @default(true)
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  company Company @relation(fields: [company_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  account_types AccountTypes[]
+  accounts Accounts[]
+  general_ledgers GeneralLedgers[]
+  ledgers Ledgers[]
+
+  @@map("employees")
+}
+
+model AccountTypes {
+  id String @id @db.Uuid @default(uuid())
+  employee_id String? @db.VarChar(50)
+  name String @db.VarChar()
+  code String @db.Char(10) @unique
+  normal_balance Boolean @default(true)
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  employee Employees? @relation(fields: [employee_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  accounts Accounts[]
+
+  @@map("account_types")
+}
+
+model Accounts {
+  id String @id @db.VarChar(50) @default(uuid())
+  employee_id String @db.VarChar(50)
+  account_type_id String @db.Uuid
+  code String @db.Char(10) @unique
+  name String @db.VarChar()
+  is_active Boolean @default(true)
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  employee Employees @relation(fields: [employee_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  account_types AccountTypes @relation(fields: [account_type_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  balance Balances[]
+  @@map("accounts")
+}
+
+model Ledgers {
+  id String @id @db.Uuid @default(uuid())
+  employee_id String @db.VarChar(50)
+  date DateTime @db.Timestamptz()
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  employee Employees @relation(fields: [employee_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  Balance Balances[]
+
+  @@map("ledgers")
+}
+
+model Balances {
+  id String @id @db.Uuid @default(uuid())
+  ledger_id String @db.Uuid
+  account_id String @db.VarChar(50)
+  begin_balance_debit Decimal @db.Money
+  begin_balance_credit Decimal @db.Money
+  mutation_debit Decimal @db.Money
+  mutation_credit Decimal @db.Money
+  end_balance_debit Decimal @db.Money
+  end_balance_credit Decimal @db.Money
+  beginning_balance Decimal @db.Money
+  mutation_balance Decimal @db.Money
+  ending_balance Decimal @db.Money
+  ledger Ledgers @relation(fields: [ledger_id], references: [id])
+  accounts Accounts @relation(fields: [account_id],references: [id])
+  general_ledgers GeneralLedgers[]
+
+  @@map("balances")
+}
+
+model GeneralLedgers {
+  id String @id @db.Uuid @default(uuid())
+  employee_id String @db.VarChar(50)
+  balance_id String @db.Uuid
+  transaction_number String @db.VarChar(100) @unique
+  description String @db.Text
+  debit Decimal @db.Money
+  credit Decimal @db.Money
+  total_balance Decimal @db.Money
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+  employee Employees @relation(fields: [employee_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+  balance Balances @relation(fields: [balance_id], references: [id], onUpdate: Cascade, onDelete: Restrict)
+
+  @@map("general_ledgers")
+}
+
+
+
+
+
