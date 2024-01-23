@@ -40,4 +40,5 @@ export async function POST(req: Request) {
     message: 'Success Created',
     data: createCompany,
   });
+  //update
 }
