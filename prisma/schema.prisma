@@ -16,9 +16,9 @@ model Company {
   company_code String @unique
   name String @db.VarChar(100)
   address String @db.Text()
-  email String @db.VarChar()
+  email String @db.VarChar() @unique
   username String @db.VarChar(100) @unique
-  password String @db.VarChar(50)
+  password String @db.VarChar(100)
   license_key String @db.Uuid @default(uuid())
   is_active Boolean @default(true)
   expires_at DateTime @db.Timestamptz()
@@ -34,9 +34,9 @@ model Employees {
   company_id String @db.VarChar(50)
   employee_code String @db.Char(10) @unique
   name String @db.VarChar(100)
-  email String @db.VarChar()
+  email String @db.VarChar() @unique
   username String @db.VarChar(100) @unique
-  password String @db.VarChar(50)
+  password String @db.VarChar(100)
   is_active Boolean @default(true)
   created_at DateTime @db.Timestamptz() @default(now())
   updated_at DateTime @db.Timestamptz() @updatedAt
