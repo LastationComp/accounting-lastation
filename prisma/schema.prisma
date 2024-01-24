@@ -32,7 +32,7 @@ model Company {
 model Employees {
   id String @id @db.VarChar(50) @default(cuid())
   company_id String @db.VarChar(50)
-  employee_code String @db.Char(10) @unique
+  employee_code String @db.Char(20) @unique
   name String @db.VarChar(100)
   email String @db.VarChar() @unique
   username String @db.VarChar(100) @unique

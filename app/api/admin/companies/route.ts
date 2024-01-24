@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     },
   });
 
-  if (nameExists?.name) return responseError(`${data.name} already exists.`);
+  if (nameExists?.name) return responseError(`Username already exists.`);
 
   const emailExists = await prisma.company.findUnique({
     where: {
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     },
   });
 
-  if (emailExists?.name) return responseError(`${data.email} already exists.`);
+  if (emailExists?.name) return responseError(`Email already exists.`);
 
   const createCompany = await prisma.company.create({
     data: data,
