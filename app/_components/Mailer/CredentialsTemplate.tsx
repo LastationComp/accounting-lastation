@@ -16,20 +16,26 @@ export function CredentialsTemplate({ name, username, password, license_key }: C
       <Preview>Save Your Credentials!</Preview>
       <Tailwind>
         <Body>
-          <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
-            <Section>
+          <Container key={'container'} className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
+            <Section key={'section1'}>
               <h1 className="font-bold text-[12px] mr-auto">Lastation</h1>
             </Section>
-            <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">Thanks for use Accounting Web App!</Heading>
-            <Text className="text-black text-[14px] leading-[24px]">Hello, {name}.</Text>
-            <Text className="text-black text-[12px] leading-[24px]">Please remember or backup this credentials for use Our Web App.</Text>
-            <Text className="outline outline-1 outline-slate-400 bg-slate-200 rounded px-5 py-4">
+            <Heading key={'heading1'} className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+              Thanks for use Accounting Web App!
+            </Heading>
+            <Text key={'text-1'} className="text-black text-[14px] leading-[24px]">
+              Hello, {name}.
+            </Text>
+            <Text key={'text-2'} className="text-black text-[12px] leading-[24px]">
+              Please remember or backup this credentials for use Our Web App.
+            </Text>
+            <Text key={'text-3'} className="outline outline-1 outline-slate-400 bg-slate-200 rounded px-5 py-4">
               License Key : {license_key} <br />
               Username : {username} <br />
               Password : {password} <br />
             </Text>
-            <Text className="text-sm font-thin text-[10px]">
-              Note: The <b>License Key</b> will be use while open <Link href={process.env.NEXT_URL}>Our Web App</Link> for the first time.
+            <Text key={'text-4'} className="text-sm font-thin text-[10px]">
+              <b>Note</b>: The <b>License Key</b> will be use while open <Link href={process.env.NEXT_URL}>Our Web App</Link> for the first time.
             </Text>
           </Container>
         </Body>

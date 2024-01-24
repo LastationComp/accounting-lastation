@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { ParsingZod } from '../Handling/ParsingWithErrorZod';
+import { validateFormat } from './AccountingFormat';
 
 export const CompaniesCreateInput = z.object({
   name: z
@@ -8,21 +9,27 @@ export const CompaniesCreateInput = z.object({
       required_error: 'Name must be filled.',
       invalid_type_error: 'Name must be string.',
     })
-    .max(100),
+    .min(1, { message: 'Name must be filled.' })
+    .max(100)
+    .refine(validateFormat, { message: 'Name format invalid.' }),
   address: z
     .string({
       required_error: 'Address must be filled.',
       invalid_type_error: 'Address must be string.',
     })
-    .max(1000),
+    .min(1, { message: 'Address must be filled.' })
+    .max(1000)
+    .refine(validateFormat, { message: 'Address format invalid.' }),
   email: z
     .string({
       required_error: 'Email must be filled.',
       invalid_type_error: 'Email is must be string.',
     })
+    .min(1, { message: 'Email must be filled.' })
     .email({
       message: 'Email not validated.',
-    }),
+    })
+    .refine(validateFormat, { message: 'Email format invalid.' }),
   service_days: z.number({
     required_error: 'Service Days must be filled.',
     invalid_type_error: 'Service Days must be number.',
@@ -30,6 +37,6 @@ export const CompaniesCreateInput = z.object({
 });
 
 export const CompaniesCreateValidate = (args: any) => {
-  const result = CompaniesCreateInput.safeParse(args);
+  const result = CompaniesCreateInput.required().safeParse(args);
   return ParsingZod(result);
 };
