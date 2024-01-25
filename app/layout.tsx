@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import NUIProvider from './_components/NUIProvider';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
-const inter = Inter({ subsets: ['latin'] });
+config.autoAddCss = false;
+const inter = Poppins({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
   title: 'Accounting',
@@ -17,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + ' h-screen'}>
+      <body className={inter.className + ' bg-poslight'}>
         <NUIProvider>{children}</NUIProvider>
       </body>
     </html>
