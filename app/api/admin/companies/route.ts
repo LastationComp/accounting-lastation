@@ -10,7 +10,8 @@ import { CredentialsTemplate } from '@/app/_components/Mailer/CredentialsTemplat
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const result = CompaniesCreateValidate(body);
+
+  const result: any = CompaniesCreateValidate(body);
 
   if (!result.success) return responseError(result);
 
@@ -24,6 +25,7 @@ export async function POST(req: Request) {
 
   const expires_at = new Date();
   expires_at.setDate(new Date().getDate() + validated.service_days);
+
   const data: any = {
     name: validated.name,
     email: validated.email,

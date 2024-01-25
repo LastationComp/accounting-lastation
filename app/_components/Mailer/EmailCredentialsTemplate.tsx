@@ -1,13 +1,15 @@
-import { Body, Button, Column, Container, Head, Heading, Html, Img, Link, Preview, Row, Section, Tailwind, Text } from '@react-email/components';
-import React, { useRef, useState } from 'react';
 
-interface CompanyCredentials {
+import { Body, Button, Column, Container, Head, Heading, Html, Img, Link, Preview, Row, Section, Tailwind, Text } from '@react-email/components';
+import React, { useEffect, useState } from 'react';
+
+interface EmployeeCredentials {
+  company_name: string;
   name: string;
   username: string;
   password: string;
   license_key: string;
 }
-export function CredentialsTemplate({ name, username, password, license_key }: CompanyCredentials) {
+export function EmailCredentialsTemplate({ company_name, username, password, license_key, name }: EmployeeCredentials) {
   return (
     <Html>
       <Head />
@@ -19,13 +21,13 @@ export function CredentialsTemplate({ name, username, password, license_key }: C
               <h1 className="font-bold text-[12px] mr-auto">Lastation</h1>
             </Section>
             <Heading key={'heading1'} className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-              Thanks for use Accounting Web App!
+              You has been added by {company_name}!
             </Heading>
             <Text key={'text-1'} className="text-black text-[14px] leading-[24px]">
               Hello, {name}.
             </Text>
             <Text key={'text-2'} className="text-black text-[12px] leading-[24px]">
-              Please remember or backup this credentials for use <Link href={process.env.NEXT_URL}>Our Web App</Link>.
+              You will be a <b>Employee of {company_name}</b>. But, please remember or backup this credentials for use <Link href={process.env.NEXT_URL}>Our Web App</Link>.
             </Text>
             <Text key={'text-3'} id="credential-content" className="outline outline-1 outline-slate-400 bg-slate-200 rounded px-5 py-4">
               License Key : {license_key} <br />

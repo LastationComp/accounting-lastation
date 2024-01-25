@@ -36,6 +36,19 @@ export const CompaniesCreateInput = z.object({
   }),
 });
 
+export const CompanyExpiresUpdateInput = z.object({
+  companyId: z.string().max(50).refine(validateFormat, { message: 'Company format invalid' }),
+  service_days: z.number({
+    required_error: 'Service Days must be filled.',
+    invalid_type_error: 'Service Days must be number.',
+  }),
+});
+
+export const CompanyExpiresUpdateValidate = (args: any) => {
+  const result = CompanyExpiresUpdateInput.required().safeParse(args);
+  return ParsingZod(result);
+};
+
 export const CompaniesCreateValidate = (args: any) => {
   const result = CompaniesCreateInput.required().safeParse(args);
   return ParsingZod(result);
