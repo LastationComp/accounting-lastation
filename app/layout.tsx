@@ -4,13 +4,14 @@ import './globals.css';
 import NUIProvider from './_components/NUIProvider';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-
+import favico from '@/app/favico.ico';
 config.autoAddCss = false;
 const inter = Poppins({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
   title: 'Accounting',
   description: 'Accounting By Lastation',
+  icons: favico.src,
 };
 
 export default function RootLayout({

@@ -16,6 +16,7 @@ export async function GET(req: Request, route: { params: { id: string } }) {
             const dateNow: Date = new Date();
             const time = data.expires_at.getTime() - dateNow.getTime();
             const resultDate: number = Math.round(time / (1000 * 3600 * 24));
+            if (resultDate < 0) return 'Expired';
             return `${resultDate} day${resultDate === 1 || resultDate === 0 ? '' : 's'} left.`;
           },
         },
