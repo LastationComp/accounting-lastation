@@ -44,6 +44,30 @@ export const CompanyExpiresUpdateInput = z.object({
   }),
 });
 
+export const CompanyProfileUpdate = z.object({
+  name: z
+  .string({
+    required_error: "Name must be filled!",
+    invalid_type_error: "Name must be a string!"
+  })
+  .max(50)
+  .min(1),
+  address: z
+  .string({
+    required_error: "Adrress must be filled!",
+    invalid_type_error: "Address must be a string!"
+  })
+  .max(1000)
+  .min(1),
+  username: z
+  .string({
+    required_error: "Username must be filled!",
+    invalid_type_error: "Username must be a string!"
+  })
+  .max(50)
+  .min(1)
+})
+
 export const CompanyExpiresUpdateValidate = (args: any) => {
   const result = CompanyExpiresUpdateInput.required().safeParse(args);
   return ParsingZod(result);
@@ -53,3 +77,8 @@ export const CompaniesCreateValidate = (args: any) => {
   const result = CompaniesCreateInput.required().safeParse(args);
   return ParsingZod(result);
 };
+
+export const CompaniesProfileUpdateValidate = (args: any) => {
+  const result = CompanyProfileUpdate.required().safeParse(args)
+  return ParsingZod(result)
+}
