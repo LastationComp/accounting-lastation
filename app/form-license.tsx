@@ -57,8 +57,12 @@ export default function FormLicense() {
             <ModalHeader>Input License Key</ModalHeader>
             <ModalBody>
               <div className="flex flex-col">
-                <span className="text-md font-normal">I think you have a first time to use Our Web App.</span>
-                <span className="text-sm font-normal">Please input your License Key.</span>
+                {!localStorage.getItem('license') && (
+                  <>
+                    <span className="text-md font-normal">I think you have a first time to use Our Web App.</span>
+                    <span className="text-sm font-normal">Please input your License Key.</span>
+                  </>
+                )}
               </div>
               <form
                 onSubmit={(e) => {
@@ -69,24 +73,26 @@ export default function FormLicense() {
               >
                 {errMsg && <span className="px-3 py-2 bg-red-500 text-white flex flex-wrap rounded mb-3 text-sm font-thin">{errMsg}</span>}
                 <div className="flex flex-col items-center gap-3">
-                  <Input
-                    size={'sm'}
-                    variant={'faded'}
-                    autoFocus
-                    isRequired
-                    value={license}
-                    onValueChange={(val) => {
-                      setErrMsg('');
-                      setLicense(val);
-                    }}
-                    required
-                    name="license"
-                    label="License Key"
-                    placeholder="Input your license key..."
-                    startContent={<FontAwesomeIcon icon={faKey} size={'sm'} />}
-                  />
+                  {!localStorage.getItem('license') && (
+                    <Input
+                      size={'sm'}
+                      variant={'faded'}
+                      autoFocus
+                      isRequired
+                      value={license}
+                      onValueChange={(val) => {
+                        setErrMsg('');
+                        setLicense(val);
+                      }}
+                      required
+                      name="license"
+                      label="License Key"
+                      placeholder="Input your license key..."
+                      startContent={<FontAwesomeIcon icon={faKey} size={'sm'} />}
+                    />
+                  )}
                   <Button type="submit" fullWidth color={'primary'} isLoading={pending}>
-                    Submit
+                    {localStorage.getItem('license') ? 'Refresh License' : 'Submit'}
                   </Button>
                   ;
                 </div>

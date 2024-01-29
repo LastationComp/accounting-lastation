@@ -12,6 +12,7 @@ export async function POST(req: Request) {
       },
       select: {
         name: true,
+        is_active: true,
         expires_at: true,
       },
     });
@@ -19,6 +20,7 @@ export async function POST(req: Request) {
     if (!checkLicense) return responseError('Incorrect License Key');
     const expired = new Date(checkLicense.expires_at) < getAllDateByRegion('Asia/Jakarta');
 
+    if (!checkLicense.is_active) return responseError('Your Subscription has been ended! Please contact our support to information details.');
     if (expired) return responseError('License Key is expired! Please contact Our Support for details.');
 
     return responseSuccess('License Key Corrected.');

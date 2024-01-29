@@ -40,5 +40,7 @@ export async function POST(req: Request) {
 
   if (!updateExpires.expires_at) return responseError('Expires failed update.');
 
+  await prisma.$disconnect();
+
   return responseSuccess('Expires successfully update.');
 }
