@@ -5,6 +5,7 @@ import NUIProvider from './_components/NUIProvider';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import favico from '@/app/favico.ico';
+import Loader from './_components/Loader';
 config.autoAddCss = false;
 const inter = Poppins({ subsets: ['latin'], weight: '400' });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + ' bg-poslight'}>
-        <NUIProvider>{children}</NUIProvider>
+        <Loader>
+          <NUIProvider>{children}</NUIProvider>
+        </Loader>
       </body>
     </html>
   );

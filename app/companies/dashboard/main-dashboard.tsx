@@ -9,7 +9,7 @@ interface MainDashboardType {
 
 export default function MainDashboard({ session }: MainDashboardType) {
   return (
-    <section className="flex items-center justify-center h-full">
+    <section className="flex items-center justify-center">
       <div>
         Welcome <span className="font-bold">{session?.user.name}</span> to Our Dashboard.
       </div>

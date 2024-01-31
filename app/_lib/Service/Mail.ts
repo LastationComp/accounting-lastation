@@ -27,8 +27,20 @@ export default class MailService {
   }
 
   async sendMail(options: MailInterface) {
+    const account = await nodemailer.createTestAccount();
+    if (process.env.NODE_ENV === 'development') {
+      this.transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth: {
+          user: account.user,
+          pass: account.pass,
+        },
+      });
+    }
     return await this.transporter.sendMail({
-      from: process.env.NEXT_SMTP_SENDER,
+      from: process.env.NODE_ENV === 'development' ? account.user : process.env.NEXT_SMTP_SENDER,
       to: options.to,
       subject: options.subject,
       text: options.text,

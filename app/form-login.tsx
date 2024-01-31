@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Checkbox, CheckboxGroup
 import React, { BaseSyntheticEvent, useState } from 'react';
 import Icon from '@/public/IconPng.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding, faCircleCheck, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faBuilding, faCircleCheck, faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faClockRotateLeft, faLock } from '@fortawesome/free-solid-svg-icons';
 import { signIn } from 'next-auth/react';
 import ResponseMsg from './_components/ResponseMessage';
@@ -15,6 +15,7 @@ export default function FormLogin() {
   const [isPending, setIsPending] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [role, setRole] = useState('employee');
+  const [showPass, setShowPass] = useState(false);
   const router = useRouter();
   const resetLicenseKey = () => {
     localStorage.removeItem('license');
@@ -23,10 +24,14 @@ export default function FormLogin() {
     window.location.reload();
   };
 
+  const showPassword = () => {
+    setShowPass(!showPass);
+  };
+
   const authentication = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
     setIsPending(true);
-    setErrMsg('')
+    setErrMsg('');
     const formData = new FormData(e.currentTarget);
 
     await delay(1000);
@@ -77,11 +82,13 @@ export default function FormLogin() {
             className="text-black"
             variant={'faded'}
             fullWidth
+            type={showPass ? 'text' : 'password'}
             isRequired
             radius={'lg'}
             label="Password"
             labelPlacement={'inside'}
             startContent={<FontAwesomeIcon className="mb-0.5" icon={faLock} size={'sm'} />}
+            endContent={<FontAwesomeIcon onClick={showPassword} className="my-auto hover:cursor-pointer" icon={showPass ? faEye : faEyeSlash} />}
           />
           <div className="flex justify-center gap-5">
             <Checkbox value={'employee'} size={'sm'} isSelected={role === 'employee'} onValueChange={() => setRole('employee')} disableAnimation classNames={{ label: 'text-white' }}>
