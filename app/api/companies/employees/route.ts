@@ -1,7 +1,7 @@
 import { EmailCredentialsTemplate } from '@/app/_components/Mailer/EmailCredentialsTemplate';
 import { generatePasswords } from '@/app/_lib/Generator/PasswordGenerators';
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 import MailService from '@/app/_lib/Service/Mail';
 import { EmployeesCreateValidate } from '@/app/_lib/Validator/Employees';
 import { render } from '@react-email/render';
@@ -89,9 +89,7 @@ export async function POST(req: Request) {
     },
     data: {
       employees: {
-        createMany: {
-          data: [data],
-        },
+        create: data,
       },
     },
     select: {

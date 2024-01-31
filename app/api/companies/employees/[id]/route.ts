@@ -1,11 +1,10 @@
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
 import { NextRequest } from 'next/server';
+import prisma from '@/app/_lib/Prisma/Client';
 
 export async function POST(req: NextRequest, route: { params: { id: string } }) {
   const { id } = await req.json();
   const employeeId = route.params.id;
-
   const activeEmployee = await prisma.employees.update({
     where: {
       id: employeeId,

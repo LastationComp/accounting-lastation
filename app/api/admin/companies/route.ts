@@ -1,7 +1,7 @@
 import { generateByName } from '@/app/_lib/Generator/CodeGenerator';
 import { generatePasswords } from '@/app/_lib/Generator/PasswordGenerators';
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 import MailService from '@/app/_lib/Service/Mail';
 import { CompaniesCreateValidate } from '@/app/_lib/Validator/Companies';
 import { render } from '@react-email/render';

@@ -52,6 +52,7 @@ export default function AccTable({ columns, data = [], isLoading = false, extraC
 
     return text;
   };
+  
   const TopContent = () => {
     return (
       <div className="flex justify-between items-center">

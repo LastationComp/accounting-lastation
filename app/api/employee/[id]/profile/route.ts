@@ -1,5 +1,5 @@
 import { responseError, responseSuccess } from "@/app/_lib/Handling/Response";
-import { prisma } from "@/app/_lib/Prisma/Client";
+import prisma from "@/app/_lib/Prisma/Client";
 import { EmployeeProfileUpdateValidator } from "@/app/_lib/Validator/Employees";
 import bcrypt from "bcrypt";
 

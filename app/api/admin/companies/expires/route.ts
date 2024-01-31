@@ -1,5 +1,5 @@
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 import { CompanyExpiresUpdateValidate } from '@/app/_lib/Validator/Companies';
 
 export async function POST(req: Request) {

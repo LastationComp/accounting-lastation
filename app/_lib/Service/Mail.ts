@@ -34,14 +34,14 @@ export default class MailService {
         port: 587,
         secure: false,
         auth: {
-          user: account.user,
-          pass: account.pass,
+          user: process.env.NEXT_SMTP_USERNAME_LOCAL,
+          pass: process.env.NEXT_SMTP_PASSWORD_LOCAL,
         },
       });
     }
     return await this.transporter.sendMail({
       from: process.env.NODE_ENV === 'development' ? account.user : process.env.NEXT_SMTP_SENDER,
-      to: options.to,
+      to: process.env.NODE_ENV === 'development' ? process.env.NEXT_SMTP_USERNAME_LOCAL : options.to,
       subject: options.subject,
       text: options.text,
       html: options.html,

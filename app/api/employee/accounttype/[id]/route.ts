@@ -1,5 +1,5 @@
 import { responseError, responseSuccess } from "@/app/_lib/Handling/Response";
-import { prisma } from "@/app/_lib/Prisma/Client";
+import prisma from "@/app/_lib/Prisma/Client";
 import { AccountTypeUpdateValidator } from "@/app/_lib/Validator/AccountType";
 
 export async function POST(req:Request, route: {params: {id: string}}) {

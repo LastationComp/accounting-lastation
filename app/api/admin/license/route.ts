@@ -1,6 +1,6 @@
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
 import { getAllDateByRegion, getTimeByRegion } from '@/app/_lib/Parser/DateLocal';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 
 export async function POST(req: Request) {
   const { license } = await req.json();

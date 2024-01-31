@@ -1,5 +1,5 @@
 import { responseError, responseSuccess } from "@/app/_lib/Handling/Response";
-import { prisma } from "@/app/_lib/Prisma/Client";
+import prisma from "@/app/_lib/Prisma/Client";
 import { CompaniesProfileUpdateValidate } from "@/app/_lib/Validator/Companies";
 import bcrypt from "bcrypt";
 
@@ -19,9 +19,11 @@ export async function GET(req:Request, route: {params: {id: string}}) {
     });
 
     await prisma.$disconnect();
+
     if(!getProfileCompany) return responseError("Data Nor Found!");
+
     return responseSuccess({
-        data: getProfileCompany,
+        profile: getProfileCompany,
     })
 }
 
