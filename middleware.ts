@@ -10,9 +10,14 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(newUrl);
   };
 
+  const rewrite = (url: string) => {
+    const newUrl = new URL(url, req.url);
+    return NextResponse.rewrite(newUrl);
+  };
+
   if (pathname.startsWith('/api/admin')) {
     const token = req.headers.get('AUTHORIZATION') ?? '';
-    if (!ValidateAdmin({ token: token })) return redirect('/api/unauthorized');
+    if (!ValidateAdmin({ token: token })) return rewrite('/api/unauthorized');
     return NextResponse.next();
   }
 

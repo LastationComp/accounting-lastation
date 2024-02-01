@@ -1,29 +1,11 @@
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 
 export async function GET(req: Request, route: { params: { id: string } }) {
   const url = new URL(req.url);
   const license_key = url.searchParams.get('license') ?? '';
 
-  const prismaExtended = prisma.$extends({
-    result: {
-      company: {
-        expires_left: {
-          needs: {
-            expires_at: true,
-          },
-          compute(data) {
-            const dateNow: Date = new Date();
-            const time = data.expires_at.getTime() - dateNow.getTime();
-            const resultDate: number = Math.round(time / (1000 * 3600 * 24));
-            if (resultDate < 0) return 'License Key has been expired.';
-            return `${resultDate} day${resultDate === 1 || resultDate === 0 ? '' : 's'} left.`;
-          },
-        },
-      },
-    },
-  });
-  const companyDetail = await prismaExtended.company.findUnique({
+  const companyDetail = await prisma.company.findUnique({
     where: {
       id: route.params.id,
     },

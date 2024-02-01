@@ -1,11 +1,43 @@
 import { EmailCredentialsTemplate } from '@/app/_components/Mailer/EmailCredentialsTemplate';
 import { generatePasswords } from '@/app/_lib/Generator/PasswordGenerators';
 import { responseError, responseSuccess } from '@/app/_lib/Handling/Response';
-import { prisma } from '@/app/_lib/Prisma/Client';
+import prisma from '@/app/_lib/Prisma/Client';
 import MailService from '@/app/_lib/Service/Mail';
 import { EmployeesCreateValidate } from '@/app/_lib/Validator/Employees';
 import { render } from '@react-email/render';
 import bcrypt from 'bcrypt';
+import { NextRequest } from 'next/server';
+
+export async function GET(req: NextRequest) {
+  const id = req.nextUrl.searchParams.get('id') ?? '';
+  const isActive = req.nextUrl.searchParams.get('isactive') === 'false' ? true : false;
+  const company = await prisma.company.findFirst({
+    where: {
+      id: id,
+    },
+    select: {
+      employees: {
+        where: {
+          is_active: isActive,
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+        select: {
+          id: true,
+          name: true,
+          employee_code: true,
+          is_active: true,
+        },
+      },
+    },
+  });
+
+  await prisma.$disconnect();
+  return responseSuccess({
+    employees: company?.employees ?? [],
+  });
+}
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -49,15 +81,15 @@ export async function POST(req: Request) {
 
   if (emailExists?.name) return responseError(`Email already exists`);
 
+  if (!companyId) return responseError('Unauthorized.', 401);
+
   const createEmployee = await prisma.company.update({
     where: {
       id: companyId,
     },
     data: {
       employees: {
-        createMany: {
-          data: [data],
-        },
+        create: data,
       },
     },
     select: {
@@ -80,7 +112,7 @@ export async function POST(req: Request) {
       password: password,
     })
   );
-  
+
   mailService.sendMail({
     to: validated.email,
     subject: 'You has been added!',
@@ -88,6 +120,6 @@ export async function POST(req: Request) {
   });
 
   return responseSuccess({
-    message: 'Employee Success Created! Please Check Your Email',
+    message: 'Employee Success Created! Please make sure your Employee to check the Email.',
   });
 }
