@@ -13,7 +13,6 @@ declare module 'next-auth' {
       code: string;
       email: string;
       is_active: boolean;
-      address: string;
       license_key: string;
       role: string;
     };
@@ -25,7 +24,6 @@ declare module 'next-auth' {
     username: string;
     code: string;
     is_active: boolean;
-    address: string;
     license_key: string;
     role: string;
     email: string;
@@ -41,7 +39,6 @@ declare module 'next-auth/jwt' {
     username: string;
     code: string;
     is_active: boolean;
-    address: string;
     license_key: string;
     role: string;
     email: string;

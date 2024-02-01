@@ -14,7 +14,11 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
+      if (trigger === 'update' && (session?.name || session?.username)) {
+        token.name = session?.name;
+        token.username = session?.username;
+      }
       return {
         ...token,
         ...user,
@@ -50,7 +54,16 @@ export const authOptions: NextAuthOptions = {
 
         await prisma.$disconnect();
 
-        const user: User = checkUser[0];
+        const user: User = {
+          id: checkUser[0].id,
+          name: checkUser[0].name,
+          username: checkUser[0].username,
+          code: checkUser[0].code,
+          is_active: checkUser[0].is_active,
+          license_key: checkUser[0].license_key,
+          role: checkUser[0].role,
+          email: checkUser[0].email,
+        };
 
         return user;
       },

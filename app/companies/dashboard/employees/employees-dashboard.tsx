@@ -154,7 +154,7 @@ export default function EmployeesDashboard({ session }: { session: Session | nul
                 </Switch>
               </div>
             }
-            searchFilterColumn={['Name', 'Employee Code']}
+            searchFilterColumn={['Employee Code', 'Name']}
             isLoading={!data}
             columns={['Employee Code', 'Name', 'Status', 'Action']}
             data={employeeData}

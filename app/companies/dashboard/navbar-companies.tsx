@@ -9,7 +9,7 @@ import { delay } from '@/app/_lib/Handling/Promise';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { generateShortName } from '@/app/_lib/Generator/ShortNameGenerator';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import nProgress from 'nprogress';
 import generateLink from '@/app/_components/Generator/Link';
@@ -21,6 +21,7 @@ interface NavbarCompany {
 export default function NavbarCompanies({ session }: NavbarCompany) {
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const logout = async () => {
     setIsPending(true);
@@ -50,6 +51,7 @@ export default function NavbarCompanies({ session }: NavbarCompany) {
                 onAction={(key) => {
                   if (key === 'logout') return logout();
                   if (key === 'profile') {
+                    if (pathname === '/companies/dashboard/profile') return;
                     nProgress.start();
                     router.push('/companies/dashboard/profile');
                   }

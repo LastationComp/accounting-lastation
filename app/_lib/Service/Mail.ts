@@ -41,7 +41,7 @@ export default class MailService {
     }
     return await this.transporter.sendMail({
       from: process.env.NODE_ENV === 'development' ? account.user : process.env.NEXT_SMTP_SENDER,
-      to: process.env.NODE_ENV === 'development' ? process.env.NEXT_SMTP_USERNAME_LOCAL : options.to,
+      to: options.to,
       subject: options.subject,
       text: options.text,
       html: options.html,
