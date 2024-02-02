@@ -25,7 +25,7 @@ model Company {
   created_at DateTime @db.Timestamptz() @default(now())
   updated_at DateTime @db.Timestamptz() @updatedAt
   employees Employees[]
-  
+
   @@map("companies")
 }
 
@@ -49,6 +49,17 @@ model Employees {
   @@map("employees")
 }
 
+model ResetPasswords {
+  id String @id @db.Uuid @default(uuid())
+  email String @db.VarChar() @unique
+  token String @db.VarChar() @unique
+  is_used Boolean @db.Boolean @default(false)
+  expires_left DateTime @db.Timestamp()
+  created_at DateTime @db.Timestamptz() @default(now())
+  updated_at DateTime @db.Timestamptz() @updatedAt
+
+  @@map("reset_passwords")
+}
 model AccountTypes {
   id String @id @db.Uuid @default(uuid())
   employee_id String? @db.VarChar(50)

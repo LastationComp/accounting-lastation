@@ -10,6 +10,7 @@ import { signIn } from 'next-auth/react';
 import ResponseMsg from './_components/ResponseMessage';
 import { useRouter } from 'next/navigation';
 import { delay } from './_lib/Handling/Promise';
+import Link from 'next/link';
 export default function FormLogin() {
   const [isResetLicense, setIsSetLicense] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -101,14 +102,19 @@ export default function FormLogin() {
           <Button type="submit" color={'primary'} fullWidth isLoading={isPending}>
             LOGIN
           </Button>
-          <Chip color={isResetLicense ? 'success' : 'warning'} onClick={resetLicenseKey} className="hover:cursor-pointer flex" variant="flat">
-            <FontAwesomeIcon icon={isResetLicense ? faCircleCheck : faClockRotateLeft} />
-            <span className="mx-1">{isResetLicense ? 'Successfully Reset!' : 'Reset License Key'}</span>
-          </Chip>
+          <div className="flex justify-between w-full">
+            <Chip color={isResetLicense ? 'success' : 'warning'} onClick={resetLicenseKey} className="hover:cursor-pointer flex" variant="flat">
+              <FontAwesomeIcon icon={isResetLicense ? faCircleCheck : faClockRotateLeft} />
+              <span className="mx-1">{isResetLicense ? 'Successfully Reset!' : 'Reset License Key'}</span>
+            </Chip>
+            <Link href={'/reset-password'} className="text-sm hover:text-blue-600">
+              Forgot Password?
+            </Link>
+          </div>
         </CardBody>
       </form>
       <CardFooter>
-        <span className="text-[10px]">&copy; 2024 Lastation, Inc. All rights reserved.</span>
+        <span className="text-[10px]">&copy; {new Date().getFullYear()} Lastation, Inc. All rights reserved.</span>
       </CardFooter>
     </Card>
   );
